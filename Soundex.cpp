@@ -18,18 +18,24 @@ char mapToSoundexCode(char c) {
     return (it != soundexMap.end()) ? it->second : '0';
 }
 
-// Helper function to build the Soundex code
-std::string buildSoundex(const std::string& name, char firstLetter, char prevCode, std::string soundex, size_t index) {
-    if (index == name.length() || soundex.length() == 4) {
-        soundex.append(4 - soundex.length(), '0');
-        return soundex;
-    }
-
-    char code = mapToSoundexCode(name[index]);
+void appendSoundex(std::string& soundex, char code, char& prevCode) {
     if (code != '0' && code != prevCode) {
         soundex += code;
         prevCode = code;
     }
+}
+
+std::string paddingSoundex(const std::string& soundex) {
+    std::string paddedSoundex = soundex;
+    paddedSoundex.resize(4, '0');
+    return paddedSoundex;
+}
+// Helper function to build the Soundex code
+std::string buildSoundex(const std::string& name, char firstLetter, char prevCode, std::string soundex, size_t index) {
+   std:: string paddingSoundex = paddedSoundex(soundex);
+
+    char code = mapToSoundexCode(name[index]);
+    appendSoundex(soundex, code, prevCode);
 
     return buildSoundex(name, firstLetter, prevCode, soundex, index + 1);
 }
