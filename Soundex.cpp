@@ -1,6 +1,7 @@
 #include <string>
 #include <cctype>
 #include <unordered_map>
+#include <algorithm>
 
 // Function to map characters to their corresponding Soundex codes
 char mapToSoundexCode(char c) {
@@ -17,23 +18,24 @@ char mapToSoundexCode(char c) {
     return (it != soundexMap.end()) ? it->second : '0';
 }
 
-// Main function to generate the Soundex code
+// Helper function to build the Soundex code
+std::string buildSoundex(const std::string& name, char firstLetter, char prevCode, std::string soundex, size_t index) {
+    if (index == name.length() || soundex.length() == 4) {
+        soundex.append(4 - soundex.length(), '0');
+        return soundex;
+    }
+
+    char code = mapToSoundexCode(name[index]);
+    if (code != '0' && code != prevCode) {
+        soundex += code;
+        prevCode = code;
+    }
+
+    return buildSoundex(name, firstLetter, prevCode, soundex, index + 1);
+}
+
 std::string generateSoundex(const std::string& name) {
     if (name.empty()) return "";  // Handle empty input
 
-    std::string soundex(1, toupper(name[0]));  // Start with first letter
-    char prevCode = mapToSoundexCode(name[0]);
-
-    for (size_t i = 1; i < name.length() && soundex.length() < 4; ++i) {
-        char code = mapToSoundexCode(name[i]);
-        if (code != '0' && code != prevCode) {
-            soundex += code;
-            prevCode = code;
-        }
-    }
-
-    // Pad with zeros to ensure length of 4
-    soundex.append(4 - soundex.length(), '0');
-
-    return soundex;
+    return buildSoundex(name, toupper(name[0]), mapToSoundexCode(name[0]), std::string(1, toupper(name[0])), 1);
 }
