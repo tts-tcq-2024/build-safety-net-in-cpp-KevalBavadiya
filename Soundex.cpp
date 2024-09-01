@@ -32,7 +32,9 @@ std::string paddingSoundex(const std::string& soundex) {
 }
 // Helper function to build the Soundex code
 std::string buildSoundex(const std::string& name, char firstLetter, char prevCode, std::string soundex, size_t index) {
-   std:: string paddedsoundx = paddingSoundex(soundex);
+   if (index >= name.length() || soundex.length() == 4) {
+        return paddingSoundex(soundex);
+    }
 
     char code = mapToSoundexCode(name[index]);
     appendSoundex(soundex, code, prevCode);
