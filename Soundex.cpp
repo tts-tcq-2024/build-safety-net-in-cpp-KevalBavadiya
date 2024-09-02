@@ -21,8 +21,8 @@ char mapToSoundexCode(char c) {
 void appendSoundex(std::string& soundex, char code, char& prevCode) {
     if (code != '0' && code != prevCode) {
         soundex += code;
-        prevCode = code;
     }
+        prevCode = code;
 }
 
 std::string paddingSoundex(const std::string& soundex) {
