@@ -3,11 +3,12 @@
 
 
 TEST(SoundexTest, BasicTest) {
-    EXPECT_EQ(generateSoundex("Singh"), "S520");
-    EXPECT_EQ(generateSoundex("Kumar"), "K560");
-    EXPECT_EQ(generateSoundex("Sharma"), "S650");
-    EXPECT_EQ(generateSoundex("Patel"), "P340");
-    EXPECT_EQ(generateSoundex("Gupta"), "G130");
+    EXPECT_EQ(generateSoundex("Smith"), "S530");
+    EXPECT_EQ(generateSoundex("Smyth"), "S530");
+    EXPECT_EQ(generateSoundex("Robert"), "R163");
+    EXPECT_EQ(generateSoundex("Rupert"), "R163");
+    EXPECT_EQ(generateSoundex("Ashcraft"), "A261");
+    EXPECT_EQ(generateSoundex("Ashcroft"), "A261");
 }
 
 TEST(SoundexTest, EdgeCases) {
@@ -18,9 +19,13 @@ TEST(SoundexTest, EdgeCases) {
 }
 
 TEST(SoundexTest, CaseInsensitive) {
-    EXPECT_EQ(generateSoundex("SINGH"), "S520");
-    EXPECT_EQ(generateSoundex("kUmAr"), "K560");
-    EXPECT_EQ(generateSoundex("shARmA"), "S650");
+    EXPECT_EQ(generateSoundex("Robert"), generateSoundex("robert"));
+    EXPECT_EQ(generateSoundex("Smith"), generateSoundex("sMiTh"));
+}
+
+TEST(SoundexTest, RepeatedCharacters) {
+    EXPECT_EQ(generateSoundex("Pfister"), "P236");
+    EXPECT_EQ(generateSoundex("Honeyman"), "H555");
 }
 
 TEST(SoundexTest, SingleCharacterName) {
