@@ -35,6 +35,11 @@ std::string buildSoundex(const std::string& name, char firstLetter, char prevCod
         return paddingSoundex(soundex);
     }
 
+    char c = name[index];
+    if (!isalpha(c)) { // Skip non-alphabetic characters
+        return buildSoundex(name, prevCode, soundex, index + 1);
+    }
+
     char code = mapToSoundexCode(name[index]);
     appendSoundex(soundex, code, prevCode);
 
