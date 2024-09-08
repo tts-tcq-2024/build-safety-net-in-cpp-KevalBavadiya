@@ -30,19 +30,22 @@ std::string paddingSoundex(const std::string& soundex) {
     return paddedSoundex;
 }
 
+std::string processCharacter(char c, char& prevCode, std::string& soundex) {
+    if (!isalpha(c)) {
+        return ""; // Skip non-alphabetic characters
+    }
+    char code = mapToSoundexCode(c);
+    appendSoundex(soundex, code, prevCode);
+    return soundex;
+}
+
+
 std::string buildSoundex(const std::string& name, char firstLetter, char prevCode, std::string soundex, size_t index) {
    if (index >= name.length() || soundex.length() == 4) {
         return paddingSoundex(soundex);
     }
-
     char c = name[index];
-    if (!isalpha(c)) { // Skip non-alphabetic characters
-        return buildSoundex(name, firstLetter, prevCode, soundex, index + 1);
-    }
-
-    char code = mapToSoundexCode(name[index]);
-    appendSoundex(soundex, code, prevCode);
-
+    soundex = processCharacter(c, prevCode, soundex);
     return buildSoundex(name, firstLetter, prevCode, soundex, index + 1);
 }
 
