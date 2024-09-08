@@ -47,7 +47,7 @@ void processCharacter(char c, char& prevCode, std::string& soundex, char prevCha
 }
 
 std::string buildSoundexLoop(const std::string& name, std::string soundex, char& prevCode, size_t index) {
-    for (; index < name.length() && soundex.length() < 4; ++index) {
+    while (index < name.length() && soundex.length() < 4) {
         char prevChar = index > 0 ? name[index - 1] : '\0';
         processCharacter(name[index], prevCode, soundex, prevChar);
     }
