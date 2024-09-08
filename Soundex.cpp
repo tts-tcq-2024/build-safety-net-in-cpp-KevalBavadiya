@@ -3,7 +3,6 @@
 #include <unordered_map>
 #include <algorithm>
 
-// Function to map characters to their corresponding Soundex codes
 char mapToSoundexCode(char c) {
     static const std::unordered_map<char, char> soundexMap = {
         {'B', '1'}, {'F', '1'}, {'P', '1'}, {'V', '1'},
@@ -30,7 +29,7 @@ std::string paddingSoundex(const std::string& soundex) {
     paddedSoundex.resize(4, '0');
     return paddedSoundex;
 }
-// Helper function to build the Soundex code
+
 std::string buildSoundex(const std::string& name, char firstLetter, char prevCode, std::string soundex, size_t index) {
    if (index >= name.length() || soundex.length() == 4) {
         return paddingSoundex(soundex);
