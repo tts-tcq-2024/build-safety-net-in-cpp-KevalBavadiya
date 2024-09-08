@@ -37,20 +37,23 @@ std::string paddingSoundex(const std::string& soundex) {
 void processCharacter(char c, char& prevCode, std::string& soundex) {
     if (isalpha(c)) {
         char code = mapToSoundexCode(c);
-        appendSoundex(soundex, c, prevCode);
+        appendSoundex(soundex, code, prevCode);
     }
 }
 
-std::string buildSoundex(const std::string& name, char firstLetter, char prevCode, std::string soundex, size_t index) {
-   if (index >= name.length() || soundex.length() == 4) {
+std::string buildSoundex(const std::string& name, std::string soundex, char prevCode, size_t index) {
+    if (index >= name.length() || soundex.length() == 4) {
         return paddingSoundex(soundex);
     }
     processCharacter(name[index], prevCode, soundex);
-    return buildSoundex(name, firstLetter, prevCode, soundex, index + 1);
+    return buildSoundex(name, soundex, prevCode, index + 1);
 }
 
 std::string generateSoundex(const std::string& name) {
-    if (name.empty()) return "";  // Handle empty input
+    if (name.empty()) return ""; 
 
-    return buildSoundex(name, toupper(name[0]), mapToSoundexCode(name[0]), std::string(1, toupper(name[0])), 1);
+    std::string soundex(1, toupper(name[0]));
+    char prevCode = mapToSoundexCode(name[0]);
+
+    return buildSoundex(name, soundex, prevCode, 1);
 }
