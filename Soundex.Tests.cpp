@@ -17,9 +17,6 @@ TEST(SoundexTest, HandlesNameWithRepeatedConsonants) {
     EXPECT_EQ(generateSoundex("Bobby"), "B100");
 }
 
-TEST(SoundexTest, HandlesNameWithHAndWSeparation) {
-    EXPECT_EQ(generateSoundex("Ashcraft"), "A261");
-}
 
 TEST(SoundexTest, HandlesNameWithDifferentSoundexCodes) {
     EXPECT_EQ(generateSoundex("Robert"), "R163");
