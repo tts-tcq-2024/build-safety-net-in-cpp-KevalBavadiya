@@ -37,7 +37,7 @@ std::string buildSoundex(const std::string& name, char firstLetter, char prevCod
 
     char c = name[index];
     if (!isalpha(c)) { // Skip non-alphabetic characters
-        return buildSoundex(name, prevCode, soundex, index + 1);
+        return buildSoundex(name, firstLetter, prevCode, soundex, index + 1);
     }
 
     char code = mapToSoundexCode(name[index]);
