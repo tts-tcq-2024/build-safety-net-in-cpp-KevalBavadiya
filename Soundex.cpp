@@ -46,13 +46,17 @@ void processCharacter(char c, char& prevCode, std::string& soundex, char prevCha
     }
 }
 
-std::string buildSoundex(const std::string& name, std::string soundex, char prevCode, size_t index) {
-    if (index >= name.length() || soundex.length() == 4) {
-        return paddingSoundex(soundex);
+std::string buildSoundexLoop(const std::string& name, std::string soundex, char& prevCode, size_t index) {
+    for (; index < name.length() && soundex.length() < 4; ++index) {
+        char prevChar = index > 0 ? name[index - 1] : '\0';
+        processCharacter(name[index], prevCode, soundex, prevChar);
     }
-    char prevChar = index > 0 ? name[index - 1] : '\0';
-    processCharacter(name[index], prevCode, soundex,prevChar);
-    return buildSoundex(name, soundex, prevCode, index + 1);
+    return soundex;
+}
+
+std::string buildSoundex(const std::string& name, std::string soundex, char prevCode, size_t index) {
+    soundex = buildSoundexLoop(name, soundex, prevCode, index);
+    return paddingSoundex(soundex);
 }
 
 std::string generateSoundex(const std::string& name) {
