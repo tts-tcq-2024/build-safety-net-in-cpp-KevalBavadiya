@@ -1,5 +1,5 @@
 #include <gtest/gtest.h>
-#include "soundex.h"
+#include "Soundex.h"
 
 TEST(SoundexTest, HandlesEmptyString) {
     std::string result = generateSoundex("");
