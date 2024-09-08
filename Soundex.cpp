@@ -33,10 +33,7 @@ std::string paddingSoundex(const std::string& soundex) {
 void processCharacter(char c, char& prevCode, std::string& soundex) {
     if (isalpha(c)) {
         char code = mapToSoundexCode(c);
-        if (code != '0' && code != prevCode) {
-            soundex += code;
-            prevCode = code;
-        }
+        appendSoundex(soundex, c, prevCode);
     }
 }
 
