@@ -17,8 +17,12 @@ char mapToSoundexCode(char c) {
     return (it != soundexMap.end()) ? it->second : '0';
 }
 
+bool shouldSkipAppending(char code, char prevCode, char prevChar, const std::string& soundex) {
+    return code == '0' || code == prevCode || toupper(prevChar) == toupper(soundex.back());
+}
+
 void appendSoundex(std::string& soundex, char code, char& prevCode, char prevChar) {
-    if (code == '0' || code == prevCode || toupper(prevChar) == toupper(soundex.back())) {
+    if (shouldSkipAppending(code, prevCode, prevChar, soundex)) {
         return;
     }
     soundex += code;
