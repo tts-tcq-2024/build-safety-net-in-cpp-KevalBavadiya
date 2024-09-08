@@ -26,7 +26,11 @@ void appendSoundex(std::string& soundex, char code, char& prevCode) {
 
 std::string paddingSoundex(const std::string& soundex) {
     std::string paddedSoundex = soundex;
-    paddedSoundex.resize(4, '0');
+    if (paddedSoundex.size() < 4) {
+        paddedSoundex.append(4 - paddedSoundex.size(), '0');
+    } else {
+        paddedSoundex.resize(4);
+    }
     return paddedSoundex;
 }
 
