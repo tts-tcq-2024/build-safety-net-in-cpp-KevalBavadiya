@@ -1,7 +1,6 @@
 #include <string>
 #include <cctype>
 #include <unordered_map>
-#include <algorithm>
 
 char mapToSoundexCode(char c) {
     static const std::unordered_map<char, char> soundexMap = {
@@ -17,53 +16,32 @@ char mapToSoundexCode(char c) {
     return (it != soundexMap.end()) ? it->second : '0';
 }
 
-bool shouldSkipAppending(char code, char prevCode, char prevChar, const std::string& soundex) {
-    return code == '0' || code == prevCode || toupper(prevChar) == toupper(soundex.back());
-}
-
-void appendSoundex(std::string& soundex, char code, char& prevCode, char prevChar) {
-    if (shouldSkipAppending(code, prevCode, prevChar, soundex)) {
-        return;
+void appendSoundex(std::string& soundex, char code, char& prevCode) {
+    if (code != '0' && code != prevCode) {
+        soundex += code;
+        prevCode = code;
     }
-    soundex += code;
-    prevCode = code;
 }
 
 std::string paddingSoundex(const std::string& soundex) {
     std::string paddedSoundex = soundex;
-    if (paddedSoundex.size() < 4) {
-        paddedSoundex.append(4 - paddedSoundex.size(), '0');
-    } else {
-        paddedSoundex.resize(4);
-    }
+    paddedSoundex.resize(4, '0');
     return paddedSoundex;
 }
 
-void processCharacter(char c, char& prevCode, std::string& soundex, char prevChar) {
-    if (isalpha(c)) {
-        char code = mapToSoundexCode(c);
-        appendSoundex(soundex, code, prevCode, prevChar);
-    }
-}
+std::string buildSoundex(const std::string& name) {
+    std::string soundex(1, toupper(name[0]));
+    char prevCode = mapToSoundexCode(name[0]);
 
-std::string buildSoundexLoop(const std::string& name, std::string soundex, char& prevCode, size_t index) {
-    while (index < name.length() && soundex.length() < 4) {
-        char prevChar = index > 0 ? name[index - 1] : '\0';
-        processCharacter(name[index], prevCode, soundex, prevChar);
+    for (size_t i = 1; i < name.length() && soundex.length() < 4; ++i) {
+        char code = mapToSoundexCode(name[i]);
+        appendSoundex(soundex, code, prevCode);
     }
-    return soundex;
-}
 
-std::string buildSoundex(const std::string& name, std::string soundex, char prevCode, size_t index) {
-    soundex = buildSoundexLoop(name, soundex, prevCode, index);
     return paddingSoundex(soundex);
 }
 
 std::string generateSoundex(const std::string& name) {
-    if (name.empty()) return ""; 
-
-    std::string soundex(1, toupper(name[0]));
-    char prevCode = mapToSoundexCode(name[0]);
-
-    return buildSoundex(name, soundex, prevCode, 1);
+    if (name.empty()) return "";  // Handle empty input
+    return buildSoundex(name);
 }
