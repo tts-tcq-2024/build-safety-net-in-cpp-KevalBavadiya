@@ -30,15 +30,21 @@ std::string paddingSoundex(const std::string& soundex) {
     return paddedSoundex;
 }
 
+void processCharacter(char c, char& prevCode, std::string& soundex) {
+    if (isalpha(c)) {
+        char code = mapToSoundexCode(c);
+        if (code != '0' && code != prevCode) {
+            soundex += code;
+            prevCode = code;
+        }
+    }
+}
+
 std::string buildSoundex(const std::string& name, char firstLetter, char prevCode, std::string soundex, size_t index) {
    if (index >= name.length() || soundex.length() == 4) {
         return paddingSoundex(soundex);
     }
-    char c = name[index];
-    if (isalpha(c)) {
-        char code = mapToSoundexCode(c);
-        appendSoundex(soundex, code, prevCode);
-    }
+    processCharacter(name[index], prevCode, soundex);
     return buildSoundex(name, firstLetter, prevCode, soundex, index + 1);
 }
 
