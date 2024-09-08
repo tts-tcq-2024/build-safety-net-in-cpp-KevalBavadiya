@@ -2,49 +2,41 @@
 #include "Soundex.h"
 
 TEST(SoundexTest, HandlesEmptyString) {
-    std::string result = generateSoundex("");
-    ASSERT_EQ(result, "");
+    EXPECT_EQ(generateSoundex(""), "");
 }
 
-TEST(SoundexTest, HandlesSingleLetterName) {
-    std::string result = generateSoundex("A");
-    ASSERT_EQ(result, "A000");
+TEST(SoundexTest, HandlesSingleCharacterName) {
+    EXPECT_EQ(generateSoundex("A"), "A000");
 }
 
-TEST(SoundexTest, HandlesNoMappingCharacters) {
-    std::string result = generateSoundex("AEIOUHWY");
-    ASSERT_EQ(result, "A000");
+TEST(SoundexTest, HandlesAllVowels) {
+    EXPECT_EQ(generateSoundex("AeIoU"), "A000");
 }
 
-TEST(SoundexTest, HandlesSimpleName) {
-    std::string result = generateSoundex("Smith");
-    ASSERT_EQ(result, "S530");
+TEST(SoundexTest, HandlesNameWithRepeatedConsonants) {
+    EXPECT_EQ(generateSoundex("Bobby"), "B100");
 }
 
-TEST(SoundexTest, HandlesDuplicateMappedCharacters) {
-    std::string result = generateSoundex("Tymczak");
-    ASSERT_EQ(result, "T522");
+TEST(SoundexTest, HandlesNameWithHAndWSeparation) {
+    EXPECT_EQ(generateSoundex("Ashcraft"), "A261");
 }
 
-TEST(SoundexTest, HandlesNameWithDifferentCases) {
-    std::string result = generateSoundex("SMITH");
-    ASSERT_EQ(result, "S530");
-    result = generateSoundex("sMiTh");
-    ASSERT_EQ(result, "S530");
+TEST(SoundexTest, HandlesNameWithDifferentSoundexCodes) {
+    EXPECT_EQ(generateSoundex("Robert"), "R163");
 }
 
-TEST(SoundexTest, PadsWithZeros) {
-    std::string result = generateSoundex("Ray");
-    ASSERT_EQ(result, "R000");
+TEST(SoundexTest, PadsSoundexToFourCharacters) {
+    EXPECT_EQ(generateSoundex("Ray"), "R000");
 }
 
-TEST(SoundexTest, TrimsToFourCharacters) {
-    std::string result = generateSoundex("Jackson");
-    ASSERT_EQ(result, "J250");
+TEST(SoundexTest, HandlesNameWithMixedCases) {
+    EXPECT_EQ(generateSoundex("aShCrAfT"), "A261");
 }
 
-TEST(SoundexTest, IgnoresCaseInSoundexCodeMapping) {
-    std::string result = generateSoundex("O'Brien");
-    ASSERT_EQ(result, "O165");
+TEST(SoundexTest, HandlesNameWithHyphenAndSpaces) {
+    EXPECT_EQ(generateSoundex("Smith-Jones"), "S532");
 }
 
+TEST(SoundexTest, HandlesNameWithSilentLetters) {
+    EXPECT_EQ(generateSoundex("Knuth"), "K530");
+}
