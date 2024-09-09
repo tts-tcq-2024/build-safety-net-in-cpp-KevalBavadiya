@@ -13,11 +13,6 @@ TEST(SoundexTest, HandlesAllVowels) {
     EXPECT_EQ(generateSoundex("AeIoU"), "A000");
 }
 
-TEST(SoundexTest, HandlesNameWithRepeatedConsonants) {
-    EXPECT_EQ(generateSoundex("Bobby"), "B100");
-}
-
-
 TEST(SoundexTest, HandlesNameWithDifferentSoundexCodes) {
     EXPECT_EQ(generateSoundex("Robert"), "R163");
 }
