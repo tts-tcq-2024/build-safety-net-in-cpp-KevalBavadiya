@@ -1,0 +1,43 @@
+Objective: The objective of the test is to verify that the generateSoundex function correctly generates the Soundex code for various types of input strings. The tests aim to ensure that the function handles edge cases, standard cases, and cases with special characters, while adhering to the Soundex algorithm rules.
+
+Test Cases: 
+
+1. HandlesEmptyString
+    Objective: Verify that the function returns an empty string when the input is an empty string.
+    Input: ""
+    Expected Output: ""
+
+2. HandlesSingleCharacterName
+  Objective: Verify that the function returns the character followed by three zeros when the input is a single letter.
+  Input: "A"
+  Expected Output: "A000"
+  
+3. HandlesAllVowels
+  Objective: Ensure that vowels are ignored and the function correctly returns the first letter followed by three zeros.
+  Input: "AeIoU"
+  Expected Output: "A000"
+  
+4. HandlesNameWithDifferentSoundexCodes
+  Objective: Verify that the function returns the correct Soundex code for a name with different Soundex group letters.
+  Input: "Robert"
+  Expected Output: "R163"
+  
+5. PadsSoundexToFourCharacters
+  Objective: Ensure that the Soundex code is padded with zeros to make it exactly four characters long.
+  Input: "Ray"
+  Expected Output: "R000"
+  
+6. HandlesNameWithMixedCases
+  Objective: Ensure that the function is case-insensitive and handles names with both upper and lower case letters.
+  Input: "aShCrAfT"
+  Expected Output: "A261"
+  
+7. HandlesNameWithHyphenAndSpaces
+  Objective: Verify that hyphens and spaces in the name are ignored by the function.
+  Input: "Smith-Jones"
+  Expected Output: "S532"
+
+8. HandlesNameWithSilentLetters
+  Objective: Verify that silent letters like 'K' in "Knuth" are handled correctly by the function.
+  Input: "Knuth"
+  Expected Output: "K530"
